@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:password_manager/constants/constants.dart';
 import 'package:password_manager/addNewPassword.dart';
 import 'package:password_manager/customButton.dart';
+import 'package:password_manager/myPasswords.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -12,6 +14,12 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,7 +66,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 child: Center(
                   child: CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyPasswords(),
+                        ),
+                      );
+                    },
                     buttonContent:
                         Text("MY PASSWORDS", style: kButtonContentTextStye),
                     width: size.width * 0.7,

@@ -3,6 +3,7 @@ import 'package:password_manager/constants/constants.dart';
 import 'package:password_manager/customButton.dart';
 import 'package:password_manager/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:password_manager/database/databaseHandler.dart';
 // import 'package:line_icons/line_icons.dart';
 
 class CreateNewPassword extends StatefulWidget {
@@ -32,6 +33,27 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     passwordController.dispose();
     websiteController.dispose();
     super.dispose();
+  }
+
+  bool _inputIsValid() {
+    /*
+    SOLVE THIS
+    */
+    // if (websiteController.text.trim().isEmpty) {
+    //   // show snackbar showing website field is empty
+    //   return false;
+    // } else {
+    //   if (websiteController.text.isEmail())
+    // }
+    // if (emailController.text.trim().isEmpty) {
+    //   // show snackbar showing website field is empty
+    //   return false;
+    // }
+    // if (passwordController.text.trim().isEmpty) {
+    //   // show snackbar showing website field is empty
+    //   return false;
+    // }
+    return true;
   }
 
   @override
@@ -101,7 +123,16 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       //   mainAxisAlignment: MainAxisAlignment.end,
                       //   children: [
                       CustomButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // if (_inputIsValid()) {
+                          Map data = {
+                            "website": websiteController.text.trim(),
+                            "email": emailController.text.trim(),
+                            "password": passwordController.text.trim(),
+                          };
+                          DatabaseHandler.addData(data);
+                          // }
+                        },
                         buttonContent: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

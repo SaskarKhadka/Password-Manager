@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:password_manager/addNewPassword.dart';
-import 'package:password_manager/customButton.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:password_manager/database/databaseHandler.dart';
 import 'welcomeScreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox("userData");
   runApp(PasswordManager());
 }
 
