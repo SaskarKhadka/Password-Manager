@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:password_manager/constants/constants.dart';
 import 'package:password_manager/addNewPassword.dart';
 import 'package:password_manager/customButton.dart';
@@ -16,7 +15,6 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void dispose() {
-    Hive.close();
     super.dispose();
   }
 
@@ -25,6 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: Color(0xff264653),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: SingleChildScrollView(

@@ -3,8 +3,7 @@ import 'package:password_manager/constants/constants.dart';
 import 'package:password_manager/customButton.dart';
 import 'package:password_manager/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:password_manager/database/databaseHandler.dart';
-// import 'package:line_icons/line_icons.dart';
+import 'package:password_manager/database/fileHandler.dart';
 
 class CreateNewPassword extends StatefulWidget {
   static const String id = "/createNewPassword";
@@ -63,6 +62,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
       top: false,
       child: Scaffold(
         // backgroundColor: Color(0xff264653),
+        backgroundColor: Colors.black,
         body: Padding(
           padding: const EdgeInsets.only(
             left: 20.0,
@@ -123,14 +123,18 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                       //   mainAxisAlignment: MainAxisAlignment.end,
                       //   children: [
                       CustomButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // if (_inputIsValid()) {
-                          Map data = {
+                          Map<String, String> data = {
                             "website": websiteController.text.trim(),
                             "email": emailController.text.trim(),
                             "password": passwordController.text.trim(),
                           };
-                          DatabaseHandler.addData(data);
+                          await FileHandler.write(data);
+                          // fileData = await FileHandler.read();
+                          await FileHandler.read();
+
+                          // setState(() {});
                           // }
                         },
                         buttonContent: Row(

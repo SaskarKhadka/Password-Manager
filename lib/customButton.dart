@@ -21,28 +21,28 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         // color: Color(0xffe9c46a),
         borderRadius: BorderRadius.circular(30.0),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Color(0xfff4a261).withOpacity(0.1),
+        //     spreadRadius: 8,
+        //     blurRadius: 12,
+        //   ),
+        // ],
         boxShadow: [
           BoxShadow(
-            color: Color(0xfff4a261).withOpacity(0.1),
-            spreadRadius: 8,
-            blurRadius: 12,
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(5, 10),
           ),
         ],
         gradient: LinearGradient(
           colors: [
-            //2nd
-            // Color(0xffF6C258),
-            // Color(0xffFCA33B),
-            //1st
-            // Color(0xffe9c46a),
-            // Color(0xfff4a261),
-            // 3rd
             Color(0xffFFB238),
             Color(0xffF19143),
-            // Color(0xffFF773D),
           ],
         ),
-        // border: Border.all(),
+        // color: Colors.white,
       ),
       child: GestureDetector(
         onTap: onPressed,

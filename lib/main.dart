@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:password_manager/addNewPassword.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:password_manager/database/databaseHandler.dart';
+import 'package:password_manager/controllers/userController.dart';
+import 'package:password_manager/database/fileHandler.dart';
 import 'welcomeScreen.dart';
+
+// late List<dynamic> fileData;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox("userData");
+  // await Hive.initFlutter();
+  // await Hive.openBox("userData");
+  UserController userController = Get.put(UserController());
+  await FileHandler.initFile;
+  userController.setData(await FileHandler.read());
   runApp(PasswordManager());
 }
 
@@ -16,7 +21,8 @@ class PasswordManager extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: WelcomeScreen.id,
       title: 'Password Manager',
       routes: {

@@ -84,7 +84,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 1,
                   blurRadius: 10,
                   offset: Offset(5, 10),
@@ -113,6 +113,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             fontSize: 15.0,
           ),
           focusedBorder: InputBorder.none,
+          enabledBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Colors.grey),
+          ),
           suffix: this.widget.isPassword && isFocused
               ? Container(
                   margin: EdgeInsets.only(
@@ -149,7 +152,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
           fontFamily: 'Montserrat',
-          color: Colors.black,
+          color: isFocused ? Colors.black : Colors.white,
         ),
       ),
     );
