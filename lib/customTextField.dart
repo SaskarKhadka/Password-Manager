@@ -10,6 +10,7 @@ class CustomTextField extends StatefulWidget {
   String labelText;
   final IconData icon;
   final bool isPassword;
+  final bool isEmail;
 
   CustomTextField({
     required this.controller,
@@ -17,6 +18,7 @@ class CustomTextField extends StatefulWidget {
     required this.labelText,
     required this.icon,
     this.isPassword = false,
+    this.isEmail = false,
   });
 
   @override
@@ -45,6 +47,34 @@ class _CustomTextFieldState extends State<CustomTextField> {
     setState(() {
       isFocused = !isFocused;
     });
+  }
+
+  String? validateWebsite(String? website) {
+    if (website!.isEmpty)
+      return "Required";
+    else {
+      return null;
+    }
+  }
+
+  String? validatePassword(String? password) {
+    if (password!.isEmpty) {
+      return "Required";
+    } else if (password.length < 8)
+      return "Must be at least 8 characters";
+    else {
+      return null;
+    }
+  }
+
+  String? validateEmail(String? email) {
+    if (!RegExp(
+            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+        .hasMatch(email!))
+      return "Email not valid";
+    else {
+      return null;
+    }
   }
 
   String _generatePassword({
@@ -78,25 +108,30 @@ class _CustomTextFieldState extends State<CustomTextField> {
         left: 15.0,
         right: 15.0,
       ),
-      decoration: isFocused
-          ? BoxDecoration(
-              // borderRadius: BorderRadius.circular(30.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: Offset(5, 10),
-                ),
-              ],
-              // border: Borde,
-            )
-          : BoxDecoration(),
-      child: TextField(
+      // decoration: isFocused
+      //     ? BoxDecoration(
+      //         // borderRadius: BorderRadius.circular(30.0),
+      //         color: Colors.white,
+      //         boxShadow: [
+      //           BoxShadow(
+      //             color: Colors.grey.withOpacity(0.3),
+      //             spreadRadius: 1,
+      //             blurRadius: 10,
+      //             offset: Offset(5, 10),
+      //           ),
+      //         ],
+      //         // border: Borde,
+      //       )
+      //     : BoxDecoration(),
+      child: TextFormField(
         controller: widget.controller,
+        validator: widget.isPassword
+            ? validatePassword
+            : widget.isEmail
+                ? validateEmail
+                : validateWebsite,
         focusNode: focusNode,
-        cursorColor: Colors.black,
+        cursorColor: Colors.white,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           prefixIcon: Padding(
@@ -112,9 +147,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
             fontFamily: 'Montserrat',
             fontSize: 15.0,
           ),
-          focusedBorder: InputBorder.none,
-          enabledBorder: new UnderlineInputBorder(
-            borderSide: new BorderSide(color: Colors.grey),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
           ),
           suffix: this.widget.isPassword && isFocused
               ? Container(
@@ -149,10 +186,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
               : null,
         ),
         style: TextStyle(
-          fontSize: 16.0,
+          fontSize: 18.0,
           fontWeight: FontWeight.w700,
           fontFamily: 'Montserrat',
-          color: isFocused ? Colors.black : Colors.white,
+          // color: isFocused ? Colors.black : Colors.white,
+          color: Colors.white,
         ),
       ),
     );

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:password_manager/constants/constants.dart';
 import 'package:password_manager/addNewPassword.dart';
 import 'package:password_manager/customButton.dart';
+import 'package:password_manager/database/fileHandler.dart';
 import 'package:password_manager/myPasswords.dart';
+import 'package:password_manager/resetPassword.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -87,7 +89,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 child: Center(
                   child: CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResetPassword(),
+                        ),
+                      );
+                    },
                     buttonContent:
                         Text("RESET PASSWORD", style: kButtonContentTextStye),
                     width: size.width * 0.7,
