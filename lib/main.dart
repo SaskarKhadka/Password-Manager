@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:password_manager/addNewPassword.dart';
+import 'package:password_manager/screens/addNewPassword.dart';
+import 'package:password_manager/screens/authenticationScreen.dart';
 import 'package:password_manager/controllers/userController.dart';
 import 'package:password_manager/database/fileHandler.dart';
-import 'package:password_manager/resetPassword.dart';
-import 'welcomeScreen.dart';
-
-// late List<dynamic> fileData;
+import 'package:password_manager/screens/resetPassword.dart';
+import 'screens/welcomeScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Hive.initFlutter();
-  // await Hive.openBox("userData");
   UserController userController = Get.put(UserController());
   await FileHandler.initFile;
   userController.setData(await FileHandler.read());
@@ -24,40 +21,35 @@ class PasswordManager extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: WelcomeScreen.id,
+      initialRoute: AuthenticationScreen.id,
       title: 'Password Manager',
-      routes: {
-        WelcomeScreen.id: (context) => WelcomeScreen(),
-        CreateNewPassword.id: (context) => CreateNewPassword(),
-        ResetPassword.id: (context) => ResetPassword(),
-      },
+      getPages: [
+        GetPage(
+          name: AuthenticationScreen.id,
+          page: () => AuthenticationScreen(),
+        ),
+        GetPage(
+          name: WelcomeScreen.id,
+          page: () => WelcomeScreen(),
+        ),
+        GetPage(
+          name: CreateNewPassword.id,
+          page: () => CreateNewPassword(),
+        ),
+        GetPage(
+          name: ResetPassword.id,
+          page: () => ResetPassword(),
+        ),
+      ],
       theme: ThemeData(
         primaryColor: Colors.black,
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.black,
         ), // primaryColorLight: Colors.white,
-        // primaryColorDark: Colors.black,
         textSelectionTheme: TextSelectionThemeData(
-          // selectionHandleColor: Color(0xffFCA33B),
           selectionHandleColor: Colors.white,
-          // cursorColor: Color(0xffFCA33B),
           selectionColor: Color(0xffFCA33B),
         ),
-        // primarySwatch: MaterialColor(
-        //   0xff131313,
-        //   <int, Color>{
-        //     50: Color(0xff131313).withOpacity(0.1), //10%
-        //     100: Color(0xff131313).withOpacity(0.2), //20%
-        //     200: Color(0xff131313).withOpacity(0.3), //30%
-        //     300: Color(0xff131313).withOpacity(0.4), //40%
-        //     400: Color(0xff131313).withOpacity(0.5), //50%
-        //     500: Color(0xff131313).withOpacity(0.6), //60%
-        //     600: Color(0xff131313).withOpacity(0.7), //70%
-        //     700: Color(0xff131313).withOpacity(0.8), //80%
-        //     800: Color(0xff131313).withOpacity(0.9), //90%
-        //     900: Color(0xff131313).withOpacity(1), //100%
-        //   },
-        // ),
       ),
     );
   }

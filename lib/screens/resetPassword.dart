@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:password_manager/auth/authentication.dart';
 import 'package:password_manager/constants/constants.dart';
-import 'package:password_manager/customButton.dart';
-import 'package:password_manager/customTextField.dart';
+import 'package:password_manager/components/customButton.dart';
+import 'package:password_manager/components/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:password_manager/database/fileHandler.dart';
 import 'package:password_manager/main.dart';
@@ -128,7 +129,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           isPassword: true,
                         ),
                         SizedBox(
-                          height: size.height * 0.075,
+                          height: size.height * 0.085,
                         ),
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.end,
@@ -136,6 +137,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         CustomButton(
                           onPressed: () async {
                             // if (_inputIsValid()) {
+
                             if (globalKey.currentState!.validate()) {
                               Get.defaultDialog(
                                 // buttonColor: Colors.black,
@@ -156,39 +158,49 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   child: Text('Yes'),
                                   onPressed: () async {
                                     Get.back();
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (context) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircularProgressIndicator(
-                                            color: Colors.white,
-                                            backgroundColor: Colors.black,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    Map<String, String> data = {
-                                      "website": websiteController.text.trim(),
-                                      "email": emailController.text.trim(),
-                                      "password":
-                                          passwordController.text.trim(),
-                                    };
-                                    try {
-                                      await FileHandler.updatePassword(data);
-                                      Get.back();
+                                    final authenticate =
+                                        await Authentication.authenticate();
+                                    if (authenticate) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) => Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircularProgressIndicator(
+                                              color: Colors.white,
+                                              backgroundColor: Colors.black,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                      Map<String, String> data = {
+                                        "website":
+                                            websiteController.text.trim(),
+                                        "email": emailController.text.trim(),
+                                        "password":
+                                            passwordController.text.trim(),
+                                      };
+                                      try {
+                                        await FileHandler.updatePassword(data);
+                                        Get.back();
+                                        getSnackBar(
+                                            title: "SUCCESS!",
+                                            message:
+                                                "Password successfully reset");
+                                      } catch (e) {
+                                        Get.back();
+                                        getSnackBar(
+                                            title: "ERROR!",
+                                            message: e.toString());
+                                      }
+                                    } else {
                                       getSnackBar(
-                                          title: "SUCCESS!",
-                                          message:
-                                              "Password successfully reset");
-                                    } catch (e) {
-                                      Get.back();
-                                      getSnackBar(
-                                          title: "ERROR!",
-                                          message: e.toString());
+                                        title: "ERROR!",
+                                        message: "Authentication not found",
+                                      );
                                     }
                                   },
                                 ),

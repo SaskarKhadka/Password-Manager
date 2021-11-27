@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:password_manager/constants/constants.dart';
-import 'package:password_manager/addNewPassword.dart';
-import 'package:password_manager/customButton.dart';
-import 'package:password_manager/database/fileHandler.dart';
-import 'package:password_manager/myPasswords.dart';
-import 'package:password_manager/resetPassword.dart';
+import 'package:password_manager/screens/addNewPassword.dart';
+import 'package:password_manager/components/customButton.dart';
+import 'package:password_manager/screens/myPasswords.dart';
+import 'package:password_manager/screens/resetPassword.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -42,6 +42,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   width: size.width * 0.9,
                 ),
               ),
+              SizedBox(height: 30.0),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 20.0,
@@ -51,7 +52,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Center(
                   child: CustomButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, CreateNewPassword.id);
+                      Get.to(
+                        CreateNewPassword(),
+                      );
                     },
                     buttonContent:
                         Text("ADD NEW PASSWORD", style: kButtonContentTextStye),
@@ -68,11 +71,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Center(
                   child: CustomButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyPasswords(),
-                        ),
+                      Get.to(
+                        MyPasswords(),
                       );
                     },
                     buttonContent:
@@ -90,11 +90,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Center(
                   child: CustomButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ResetPassword(),
-                        ),
+                      Get.to(
+                        ResetPassword(),
                       );
                     },
                     buttonContent:
@@ -107,12 +104,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
         ),
       ),
-      // appBar: AppBar(
-      //   leading: null,
-      //   title: Text("Password Manager"),
-      //   backgroundColor: Colors.pinkAccent,
-      //   centerTitle: true,
-      // ),
     );
   }
 }

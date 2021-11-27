@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:password_manager/constants/constants.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -21,13 +20,6 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         // color: Color(0xffe9c46a),
         borderRadius: BorderRadius.circular(30.0),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Color(0xfff4a261).withOpacity(0.1),
-        //     spreadRadius: 8,
-        //     blurRadius: 12,
-        //   ),
-        // ],
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),

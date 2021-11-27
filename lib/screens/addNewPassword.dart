@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:password_manager/constants/constants.dart';
-import 'package:password_manager/customButton.dart';
-import 'package:password_manager/customTextField.dart';
+import 'package:password_manager/components/customButton.dart';
+import 'package:password_manager/components/customTextField.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:password_manager/database/fileHandler.dart';
 import 'package:password_manager/main.dart';
+import '../auth/authentication.dart';
 
 extension StringExtension on String {
   String toTitleCase() {
@@ -44,27 +43,6 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     passwordController.dispose();
     websiteController.dispose();
     super.dispose();
-  }
-
-  bool _inputIsValid() {
-    /*
-    SOLVE THIS
-    */
-    // if (websiteController.text.trim().isEmpty) {
-    //   // show snackbar showing website field is empty
-    //   return false;
-    // } else {
-    //   if (websiteController.text.isEmail())
-    // }
-    // if (emailController.text.trim().isEmpty) {
-    //   // show snackbar showing website field is empty
-    //   return false;
-    // }
-    // if (passwordController.text.trim().isEmpty) {
-    //   // show snackbar showing website field is empty
-    //   return false;
-    // }
-    return true;
   }
 
   @override
@@ -159,42 +137,53 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                                   child: Text('Yes'),
                                   onPressed: () async {
                                     Get.back();
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (context) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircularProgressIndicator(
-                                            color: Colors.white,
-                                            backgroundColor: Colors.black,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    Map<String, String> data = {
-                                      "website": websiteController.text
-                                          .trim()
-                                          .toTitleCase(),
-                                      "email": emailController.text.trim(),
-                                      "password":
-                                          passwordController.text.trim(),
-                                    };
-                                    try {
-                                      await FileHandler.write(data);
-                                      Get.back();
-                                      getSnackBar(
-                                          title: "SUCCESS!",
-                                          message:
-                                              "Record successfully added.");
-                                    } catch (e) {
-                                      Get.back();
-                                      getSnackBar(
-                                        title: "ERROR!",
-                                        message: e.toString(),
+                                    final authenticate =
+                                        await Authentication.authenticate();
+                                    if (authenticate) {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (context) => Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircularProgressIndicator(
+                                              color: Colors.white,
+                                              backgroundColor: Colors.black,
+                                            ),
+                                          ],
+                                        ),
                                       );
+                                      Map<String, String> data = {
+                                        "website": websiteController.text
+                                            .trim()
+                                            .toTitleCase(),
+                                        "email": emailController.text.trim(),
+                                        "password":
+                                            passwordController.text.trim(),
+                                      };
+                                      try {
+                                        await FileHandler.write(data);
+                                        Get.back();
+                                        websiteController.clear();
+                                        emailController.clear();
+                                        passwordController.clear();
+                                        getSnackBar(
+                                            title: "SUCCESS!",
+                                            message:
+                                                "Record successfully added.");
+                                      } catch (e) {
+                                        Get.back();
+                                        getSnackBar(
+                                          title: "ERROR!",
+                                          message: e.toString(),
+                                        );
+                                      }
+                                    } else {
+                                      getSnackBar(
+                                          title: "ERROR!",
+                                          message: "Authentication not found");
                                     }
                                   },
                                 ),

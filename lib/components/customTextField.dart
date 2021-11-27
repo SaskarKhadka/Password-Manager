@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'constants/constants.dart';
+import '../constants/constants.dart';
 
 //ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
@@ -108,21 +108,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         left: 15.0,
         right: 15.0,
       ),
-      // decoration: isFocused
-      //     ? BoxDecoration(
-      //         // borderRadius: BorderRadius.circular(30.0),
-      //         color: Colors.white,
-      //         boxShadow: [
-      //           BoxShadow(
-      //             color: Colors.grey.withOpacity(0.3),
-      //             spreadRadius: 1,
-      //             blurRadius: 10,
-      //             offset: Offset(5, 10),
-      //           ),
-      //         ],
-      //         // border: Borde,
-      //       )
-      //     : BoxDecoration(),
       child: TextFormField(
         controller: widget.controller,
         validator: widget.isPassword
